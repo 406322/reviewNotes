@@ -1,5 +1,8 @@
 import React, { useEffect } from 'react'
+import { Route, Routes, Navigate } from "react-router-dom"
 import axios from 'axios'
+
+import ReviewNotes from './pages/ReviewNotes'
 
 const App = () => {
 
@@ -19,10 +22,10 @@ const App = () => {
 
   return (
     <>
-      <h1
-        className="text-3xl font-bold underline">
-        Hello World!
-      </h1>
+      <Routes>
+        <Route path="/" element={<Navigate to="/engagements/2021_001/reviewnotes" replace />} />
+        <Route path="/engagements/2021_001/reviewnotes" element={<ReviewNotes />} />
+      </Routes>
     </>
   )
 }
