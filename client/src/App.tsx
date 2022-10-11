@@ -15,8 +15,29 @@ const App = () => {
     }
   }
 
+  const getUsers = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/users')
+      console.log(response.data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const getReviewnotes = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/reviewnotes')
+      console.log(response.data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+
   useEffect(() => {
     sendGetRequest()
+    getUsers()
+    getReviewnotes()
   }, [])
 
 

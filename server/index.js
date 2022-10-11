@@ -3,10 +3,21 @@ import cors from 'cors'
 const app = express()
 const port = 8080
 
+import * as users from './data/dummy-data-users.json' assert {type: "json"}
+import * as reviewnotes from './data/dummy-data-reviewnotes.json' assert {type: "json"}
+
 app.use(cors())
 
 app.get('/', (req, res) => {
     res.send('Hello from the server!')
+})
+
+app.get('/users', (req, res) => {
+    res.status(200).json(users)
+})
+
+app.get('/reviewnotes', (req, res) => {
+    res.status(200).json(reviewnotes)
 })
 
 app.listen(port, () => {
