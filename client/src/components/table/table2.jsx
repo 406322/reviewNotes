@@ -22,6 +22,10 @@ export const Table2 = () => {
         filterData()
     }, [reviewNotes])
 
+    useEffect(() => {
+        filterData()
+    }, [rows])
+
     const getUsers = async () => {
         try {
             const response = await axios.get('http://localhost:8080/users')
@@ -35,6 +39,7 @@ export const Table2 = () => {
         let filteredData = []
         if (!reviewNotes) return
         for (let i = 0; i < rows; i++) {
+            if (!reviewNotes[i]) return
             filteredData.push(reviewNotes[i])
         }
         setFilteredReviewNotes(filteredData)
@@ -95,8 +100,14 @@ export const Table2 = () => {
 
                     </tbody>
                 </table>
-            )
-            }
+            )}
+
+            <button
+                className='bg-blue-100 border border-black'
+                onClick={() => setRows((prev) => prev + 3)}
+            >
+                Load more
+            </button>
 
         </div >
     )
