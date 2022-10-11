@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table } from '../components/table/table'
+import { Table2 } from '../components/table/table2'
 
 
 const ReviewNotes = () => {
@@ -9,8 +9,7 @@ const ReviewNotes = () => {
                 className="mb-5 text-3xl font-bold underline">
                 Review notes
             </h1>
-
-            <Table />
+            <Table2 />
         </>
     )
 }
