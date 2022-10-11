@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table2 } from '../components/table/table2'
+import { Table2 } from '../components/table/table'
 
 
 const ReviewNotes = () => {
