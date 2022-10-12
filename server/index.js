@@ -26,6 +26,13 @@ const formatDate = (string) => {
     }
 }
 
+const formatSection = (string) => {
+    if (string === "app-engagement-information") return "Engagement information"
+    if (string === "app-independence") return "Independence"
+    if (string === "app-scope") return "Scope"
+    else return string
+}
+
 const formatReviewNotesData = (reviewnotesData) => {
     return reviewnotesData.default.map((element) => {
         return {
@@ -36,7 +43,7 @@ const formatReviewNotesData = (reviewnotesData) => {
             dueDate: formatDate(element.dueDate),
             ...(element.assignees[0] ? { assignees: element.assignees[0].$oid } : { assignees: [] }),
             reporter: element.reporterId.$oid,
-            section: element.sectionRef,
+            section: formatSection(element.sectionRef),
             created: formatDate(element.createdAt.$date),
             updated: formatDate(element.updatedAt.$date),
         }

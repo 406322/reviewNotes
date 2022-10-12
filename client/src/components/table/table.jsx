@@ -203,10 +203,10 @@ export const Table = () => {
             <div>
                 {filteredReviewNotes && (
 
-                    <table>
+                    <table className='w-full'>
 
                         <thead>
-                            <tr>
+                            <tr className='text-left'>
                                 {colNames.map((element, index) => (
                                     <th key={uuidv4()}>
                                         {element}
