@@ -132,22 +132,22 @@ export const Table = () => {
                 className='flex gap-3 my-5'>
                 <div
                     name="filterSeach"
-                    className='flex flex-col'>
+                    className='flex flex-col ml-3'>
                     <br />
                     <input
                         name='searchInput'
                         type="text"
-                        className='border border-black'
+                        className='pl-4 mb-2 border border-black rounded-full'
                         onChange={(event) => setFilterState((prevState) => { return { ...prevState, search: event.target.value } })}
-                        placeholder="Search for titles.."
+                        placeholder="search"
                         value={filterState.search}
                     />
                     <button
                         name='clearFilterButton'
-                        className='text-left text-blue-400 underline'
+                        className='text-sm text-left text-blue-800 underline'
                         onClick={clearFilters}
                     >
-                        clear filters
+                        Clear filters
                     </button>
                 </div>
 
