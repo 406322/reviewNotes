@@ -19,6 +19,7 @@ export const Table = () => {
     })
 
     const runFilter = (data) => {
+        if (!data) return
         let result = filterRows(data)
         result = filterSearch(result)
         result = filterType(result, filterState.type)
@@ -28,7 +29,7 @@ export const Table = () => {
     }
 
     const filterRows = (data) => {
-        if (!data) return
+
         let result = []
         for (let i = 0; i < filterState.rows; i++) {
             if (!data[i]) return
@@ -49,21 +50,18 @@ export const Table = () => {
     }
 
     const filterType = (data, type) => {
-        if (!data) return
         let result
         if (type === 'All') { return result = data.filter(x => x === x) }
         else { return result = data.filter(x => x.type === type) }
     }
 
     const filterStatus = (data, status) => {
-        if (!data) return
         let result
         if (status === 'All') { return result = data.filter(x => x === x) }
         else { return result = data.filter(x => x.status === status) }
     }
 
     const filterPriority = (data, priority) => {
-        if (!data) return
         let result
         if (priority === 'All') { return result = data.filter(x => x === x) }
         else { return result = data.filter(x => x.priority === priority) }
