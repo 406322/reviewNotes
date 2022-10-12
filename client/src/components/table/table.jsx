@@ -4,12 +4,80 @@ import { ReviewNote } from '../../models'
 import { v4 as uuidv4 } from 'uuid';
 
 
-export const Table2 = () => {
+export const Table = () => {
 
     const [users, setUsers] = useState(null)
     const [reviewNotes, setReviewNotes] = useState(null)
     const [filteredReviewNotes, setFilteredReviewNotes] = useState(null)
-    const [rows, setRows] = useState(3)
+
+    const [filterState, setFilterState] = useState({
+        rows: 3,
+        search: "",
+        type: "All",
+        status: "All",
+        priority: "All"
+    })
+
+    const runFilter = (data) => {
+        let result = filterRows(data)
+        result = filterSearch(result)
+        result = filterType(result, filterState.type)
+        result = filterStatus(result, filterState.status)
+        result = filterPriority(result, filterState.priority)
+        setFilteredReviewNotes(result)
+    }
+
+    const filterRows = (data) => {
+        if (!data) return
+        let result = []
+        for (let i = 0; i < filterState.rows; i++) {
+            if (!data[i]) return
+            result.push(data[i])
+        }
+        return result
+    }
+
+    const filterSearch = (data) => {
+        if (filterState.search === "") return data
+        const searchInput = filterState.search
+        const result = data.filter(value => {
+            const searchStr = searchInput.toLowerCase()
+            const matches = value.title.toLowerCase().includes(searchStr);
+            return matches
+        })
+        return result
+    }
+
+    const filterType = (data, type) => {
+        if (!data) return
+        let result
+        if (type === 'All') { return result = data.filter(x => x === x) }
+        else { return result = data.filter(x => x.type === type) }
+    }
+
+    const filterStatus = (data, status) => {
+        if (!data) return
+        let result
+        if (status === 'All') { return result = data.filter(x => x === x) }
+        else { return result = data.filter(x => x.status === status) }
+    }
+
+    const filterPriority = (data, priority) => {
+        if (!data) return
+        let result
+        if (priority === 'All') { return result = data.filter(x => x === x) }
+        else { return result = data.filter(x => x.priority === priority) }
+    }
+
+    const clearFilters = () => {
+        setFilterState({
+            rows: 3,
+            search: "",
+            type: "All",
+            status: "All",
+            priority: "All"
+        })
+    }
 
 
     useEffect(() => {
@@ -20,12 +88,9 @@ export const Table2 = () => {
     }, [])
 
     useEffect(() => {
-        filterRows()
-    }, [reviewNotes])
+        runFilter(reviewNotes)
+    }, [reviewNotes, filterState])
 
-    useEffect(() => {
-        filterRows()
-    }, [rows])
 
     const getUsers = async () => {
         try {
@@ -45,57 +110,17 @@ export const Table2 = () => {
         }
     }
 
-    const filterRows = () => {
-        if (!reviewNotes) return
-        let result = []
-        for (let i = 0; i < rows; i++) {
-            if (!reviewNotes[i]) return
-            result.push(reviewNotes[i])
-        }
-        setFilteredReviewNotes(result)
-    }
-
-    const filterSearch = (event, array) => {
-        const searchInput = event.target.value
-        const result = array.filter(value => {
-            const searchStr = searchInput.toLowerCase()
-            const matches = value.title.toLowerCase().includes(searchStr);
-            return matches
-        })
-        setFilteredReviewNotes(result);
-    }
-
-    const filterType = (type) => {
-        let result
-        if (type === 'All') { result = reviewNotes.filter(x => x === x) }
-        else { result = reviewNotes.filter(x => x.type === type) }
-        console.log(result)
-    }
-
-    const filterPriority = (priority) => {
-        let result
-        if (priority === 'All') { result = reviewNotes.filter(x => x === x) }
-        else { result = reviewNotes.filter(x => x.priority === priority) }
-        console.log(result)
-
-    }
-
-    const clearFilters = () => {
-        setFilteredReviewNotes(reviewNotes)
-        setRows(3)
-    }
-
     const handleLoadMore = () => {
-        setRows((prev) => prev + 3)
+        const isMaxRows = (reviewNotes.length) <= filterState.rows
+        if (isMaxRows) return
+        setFilterState((prevState) => { return { ...prevState, rows: filterState.rows + 3 } })
     }
 
     const colNames = ["Title", "Type", "Status", "Priority", "Due date", "Assignees", "Reporter", "Section", "Created", "Updated"]
 
     return (
 
-
         <div>
-
             <div
                 name="filterBar"
                 className='flex gap-3 my-5'>
@@ -104,11 +129,15 @@ export const Table2 = () => {
                     className='flex flex-col'>
                     <br />
                     <input
+                        name='searchInput'
                         type="text"
                         className='border border-black'
-                        onChange={(event) => filterSearch(event, reviewNotes)}
-                        placeholder="Search for titles.." />
+                        onChange={(event) => setFilterState((prevState) => { return { ...prevState, search: event.target.value } })}
+                        placeholder="Search for titles.."
+                        value={filterState.search}
+                    />
                     <button
+                        name='clearFilterButton'
                         className='text-left text-blue-400 underline'
                         onClick={clearFilters}
                     >
@@ -116,61 +145,60 @@ export const Table2 = () => {
                     </button>
                 </div>
 
-                <div
-                    name="filterType"
-                >
+                <div name="filterType">
                     <p>Type</p>
                     <button
+                        name='all'
                         className='w-20 border border-black'
-                        onClick={() => filterType('All')}
+                        onClick={() => setFilterState((prevState) => { return { ...prevState, type: 'All' } })}
                     >
                         All
                     </button>
-                    <button className='w-20 border border-black'
-                        onClick={() => filterType('Task')}>
+                    <button
+                        name='task'
+                        className='w-20 border border-black'
+                        onClick={() => setFilterState((prevState) => { return { ...prevState, type: 'Task' } })}>
                         Tasks
                     </button>
                     <button
+                        name='note'
                         className='w-20 border border-black'
-                        onClick={() => filterType('Note')}>
+                        onClick={() => setFilterState((prevState) => { return { ...prevState, type: 'Note' } })}>
                         Notes
                     </button>
                 </div>
 
 
-                <div
-                    name="filterPriority"
-                >
+
+                <div name="filterPriority">
                     <p>Priority</p>
                     <button
                         className='w-20 border border-black'
-                        onClick={() => filterPriority('All')}
+                        onClick={() => setFilterState((prevState) => { return { ...prevState, priority: 'All' } })}
                     >
                         All
                     </button>
                     <button className='w-20 border border-black'
-                        onClick={() => filterPriority('Low')}>
+                        onClick={() => setFilterState((prevState) => { return { ...prevState, priority: 'Low' } })}
+                    >
                         Low
                     </button>
                     <button
                         className='w-20 border border-black'
-                        onClick={() => filterPriority('Medium')}>
+                        onClick={() => setFilterState((prevState) => { return { ...prevState, priority: 'Medium' } })}
+                    >
                         Medium
                     </button>
                     <button
                         className='w-20 border border-black'
-                        onClick={() => filterPriority('High')}>
+                        onClick={() => setFilterState((prevState) => { return { ...prevState, priority: 'High' } })}
+                    >
                         High
                     </button>
                 </div>
 
 
             </div>
-
-
-
-
-
 
             <div>
                 {filteredReviewNotes && (
