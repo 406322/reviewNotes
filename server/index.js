@@ -56,7 +56,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/users', (req, res) => {
-    res.status(200).json(usersData)
+    res.status(200).json(usersData.default)
 })
 
 app.get('/reviewnotes', (req, res) => {
