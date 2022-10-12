@@ -203,7 +203,7 @@ export const Table = () => {
             <div>
                 {filteredReviewNotes && (
 
-                    <table className='w-full'>
+                    <table className='w-full border border-separate border-spacing-2'>
 
                         <thead>
                             <tr className='text-left'>
@@ -227,6 +227,19 @@ export const Table = () => {
                                     } */}
 
                                     {Object.values(obj).map((element, index) => {
+                                        if (element === 'Note') { return <td className='text-center text-white bg-gray-500 border border-black' key={index}>{element}</td> }
+                                        if (element === 'Task') { return <td className='text-center text-white bg-gray-500 border border-black' key={index}>{element}</td> }
+
+                                        if (element === 'In Progress') { return <td className='text-center text-white bg-blue-500 border border-black' key={index}>{element}</td> }
+                                        if (element === 'Not started') { return <td className='text-center text-white bg-gray-500 border border-black' key={index}>{element}</td> }
+                                        if (element === 'Addressed') { return <td className='text-center text-white bg-green-500 border border-black' key={index}>{element}</td> }
+                                        if (element === 'Pending documentation') { return <td className='text-center text-white bg-yellow-500 border border-black' key={index}>{element}</td> }
+                                        if (element === 'Closed') { return <td className='text-center text-white bg-black border border-black' key={index}>{element}</td> }
+
+                                        if (element === 'Engagement information') { return <td className='text-center text-white bg-gray-500 border border-black' key={index}>{element}</td> }
+                                        if (element === 'Independence') { return <td className='text-center text-white bg-gray-500 border border-black' key={index}>{element}</td> }
+                                        if (element === 'Scope') { return <td className='text-center text-white bg-gray-500 border border-black' key={index}>{element}</td> }
+
                                         if (element === 'High') { return <td className='text-center text-white bg-red-500 border border-black' key={index}>{element}</td> }
                                         if (element === 'Medium') { return <td className='text-center text-white bg-yellow-500 border border-black' key={index}>{element}</td> }
                                         if (element === 'Low') { return <td className='text-center text-white bg-green-500 border border-black' key={index}>{element}</td> }
@@ -242,7 +255,7 @@ export const Table = () => {
                 )}
 
                 <button
-                    className='bg-blue-100 border border-black'
+                    className='w-full text-blue-600 underline bg-blue-100 border border-black'
                     onClick={handleLoadMore}
                 >
                     Load more
