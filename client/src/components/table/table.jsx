@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ReviewNote } from '../../models'
 import { v4 as uuidv4 } from 'uuid';
 
@@ -11,6 +11,7 @@ export const Table2 = () => {
     const [filteredReviewNotes, setFilteredReviewNotes] = useState(null)
     const [rows, setRows] = useState(3)
 
+
     useEffect(() => {
         getUsers()
             .then((users) => setUsers(users))
@@ -20,6 +21,7 @@ export const Table2 = () => {
 
     useEffect(() => {
         filterData()
+        if (reviewNotes) console.log(reviewNotes[2].dueDate)
     }, [reviewNotes])
 
     useEffect(() => {
@@ -48,7 +50,7 @@ export const Table2 = () => {
     const colNames = [
         "Title",
         "Type",
-        "State",
+        "Status",
         "Priority",
         "Due date",
         "Assignees",
@@ -77,10 +79,11 @@ export const Table2 = () => {
         setFilteredReviewNotes(filteredData);
     }
 
+
     return (
 
-        <div>
 
+        <div>
             <input
                 type="text"
                 className='border border-black'
@@ -107,11 +110,19 @@ export const Table2 = () => {
                             {Object.values(filteredReviewNotes).map((obj, index) => (
                                 <tr key={uuidv4()} >
 
-                                    {
+                                    {/* {
                                         Object.values(obj).map((value, index2) => (
                                             <td key={index2}>{value}</td>
                                         ))
-                                    }
+                                    } */}
+
+                                    {Object.values(obj).map((element, index) => {
+                                        if (element === 'High') { return <td className='text-center text-white bg-red-500 border border-black' key={index}>{element}</td> }
+                                        if (element === 'Medium') { return <td className='text-center text-white bg-yellow-500 border border-black' key={index}>{element}</td> }
+                                        if (element === 'Low') { return <td className='text-center text-white bg-green-500 border border-black' key={index}>{element}</td> }
+                                        return <td key={index}>{element}</td>
+
+                                    })}
 
                                 </tr>
                             ))}

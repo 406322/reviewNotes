@@ -3,25 +3,42 @@ import cors from 'cors'
 const app = express()
 const port = 8080
 
-import * as users from './data/dummy-data-users.json' assert {type: "json"}
-import * as reviewnotes from './data/dummy-data-reviewnotes.json' assert {type: "json"}
+import * as usersData from './data/dummy-data-users.json' assert {type: "json"}
+import * as reviewnotesData from './data/dummy-data-reviewnotes.json' assert {type: "json"}
 
 app.use(cors())
 
+const formatDate = (string) => {
+    if (string.length === 24) { // "2021-09-14T06:02:49.781Z"
+        const day = string.slice(8, 10)
+        const month = string.slice(5, 7)
+        const year = string.slice(0, 4)
+        const hour = string.slice(11, 13)
+        const minute = string.slice(14, 16)
 
-const fixData = (data) => {
-    return data.default.map((element) => {
+        return day + '.' + month + '.' + year + ' ' + hour + ':' + minute
+    } else { // "2021-09-16"
+        const day = string.slice(8, 10)
+        const month = string.slice(5, 7)
+        const year = string.slice(0, 4)
+
+        return day + '.' + month + '.' + year
+    }
+}
+
+const formatReviewNotesData = (reviewnotesData) => {
+    return reviewnotesData.default.map((element) => {
         return {
             title: element.title,
             type: element.type,
             status: element.status,
             priority: element.priority.text,
-            dueDate: element.dueDate,
+            dueDate: formatDate(element.dueDate),
             ...(element.assignees[0] ? { assignees: element.assignees[0].$oid } : { assignees: [] }),
             reporter: element.reporterId.$oid,
             section: element.sectionRef,
-            created: element.createdAt.$date,
-            updated: element.updatedAt.$date,
+            created: formatDate(element.createdAt.$date),
+            updated: formatDate(element.updatedAt.$date),
         }
     })
 }
@@ -32,12 +49,12 @@ app.get('/', (req, res) => {
 })
 
 app.get('/users', (req, res) => {
-    res.status(200).json(users)
+    res.status(200).json(usersData)
 })
 
 app.get('/reviewnotes', (req, res) => {
-    const data = fixData(reviewnotes)
-    res.status(200).json(data)
+    const result = formatReviewNotesData(reviewnotesData)
+    res.status(200).json(result)
 })
 
 app.listen(port, () => {
