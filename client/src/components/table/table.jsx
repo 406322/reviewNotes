@@ -155,20 +155,20 @@ export const Table = () => {
                     <p>Type</p>
                     <button
                         name='all'
-                        className='w-20 border border-black'
+                        className={'w-20 ' + (filterState.type === 'All' ? 'bg-blue-400 border border-black' : 'bg-white border border-black')}
                         onClick={() => setFilterState((prevState) => { return { ...prevState, type: 'All' } })}
                     >
                         All
                     </button>
                     <button
                         name='task'
-                        className='w-20 border border-black'
+                        className={'w-20 ' + (filterState.type === 'Task' ? 'bg-blue-400 border border-black' : 'bg-white border border-black')}
                         onClick={() => setFilterState((prevState) => { return { ...prevState, type: 'Task' } })}>
                         Tasks
                     </button>
                     <button
                         name='note'
-                        className='w-20 border border-black'
+                        className={'w-20 ' + (filterState.type === 'Note' ? 'bg-blue-400 border border-black' : 'bg-white border border-black')}
                         onClick={() => setFilterState((prevState) => { return { ...prevState, type: 'Note' } })}>
                         Notes
                     </button>
@@ -179,24 +179,25 @@ export const Table = () => {
                 <div name="filterPriority">
                     <p>Priority</p>
                     <button
-                        className='w-20 border border-black'
+                        className={'w-20 ' + (filterState.priority === 'All' ? 'bg-blue-400 border border-black' : 'bg-white border border-black')}
                         onClick={() => setFilterState((prevState) => { return { ...prevState, priority: 'All' } })}
                     >
                         All
                     </button>
-                    <button className='w-20 border border-black'
+                    <button
+                        className={'w-20 ' + (filterState.priority === 'Low' ? 'bg-blue-400 border border-black' : 'bg-white border border-black')}
                         onClick={() => setFilterState((prevState) => { return { ...prevState, priority: 'Low' } })}
                     >
                         Low
                     </button>
                     <button
-                        className='w-20 border border-black'
+                        className={'w-20 ' + (filterState.priority === 'Medium' ? 'bg-blue-400 border border-black' : 'bg-white border border-black')}
                         onClick={() => setFilterState((prevState) => { return { ...prevState, priority: 'Medium' } })}
                     >
                         Medium
                     </button>
                     <button
-                        className='w-20 border border-black'
+                        className={'w-20 ' + (filterState.priority === 'High' ? 'bg-blue-400 border border-black' : 'bg-white border border-black')}
                         onClick={() => setFilterState((prevState) => { return { ...prevState, priority: 'High' } })}
                     >
                         High
