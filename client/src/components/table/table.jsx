@@ -121,7 +121,7 @@ export const Table = () => {
 
     }
 
-    const colNames = ["Title", "Type", "Status", "Priority", "Due date", "Assignees", "Reporter", "Section", "Created", "Updated"]
+    const colNames = ["", "Title", "Type", "Status", "Priority", "Due date", "Assignees", "Reporter", "Section", "Created", "Updated"]
 
     return (
 
@@ -221,9 +221,11 @@ export const Table = () => {
                         </thead>
 
                         <tbody>
-
                             {Object.values(filteredReviewNotes).map((obj) => (
+
                                 <tr key={uuidv4()} >
+                                    <td><input type="checkbox" /></td>
+
 
                                     {Object.values(obj).map((element, index) => {
                                         if (element === 'Note') { return <td className='text-center text-white bg-gray-500 border border-black' key={index}>{element}</td> }
