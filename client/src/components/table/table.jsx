@@ -72,6 +72,14 @@ export const Table2 = () => {
         console.log(result)
     }
 
+    const filterPriority = (priority) => {
+        let result
+        if (priority === 'All') { result = reviewNotes.filter(x => x === x) }
+        else { result = reviewNotes.filter(x => x.priority === priority) }
+        console.log(result)
+
+    }
+
     const clearFilters = () => {
         setFilteredReviewNotes(reviewNotes)
         setRows(3)
@@ -128,7 +136,38 @@ export const Table2 = () => {
                         Notes
                     </button>
                 </div>
+
+
+                <div
+                    name="filterPriority"
+                >
+                    <p>Priority</p>
+                    <button
+                        className='w-20 border border-black'
+                        onClick={() => filterPriority('All')}
+                    >
+                        All
+                    </button>
+                    <button className='w-20 border border-black'
+                        onClick={() => filterPriority('Low')}>
+                        Low
+                    </button>
+                    <button
+                        className='w-20 border border-black'
+                        onClick={() => filterPriority('Medium')}>
+                        Medium
+                    </button>
+                    <button
+                        className='w-20 border border-black'
+                        onClick={() => filterPriority('High')}>
+                        High
+                    </button>
+                </div>
+
+
             </div>
+
+
 
 
 
