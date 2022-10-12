@@ -1,7 +1,8 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { ReviewNote } from '../../models'
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid'
+import { GrLink } from 'react-icons/gr'
 
 
 export const Table = () => {
@@ -121,7 +122,7 @@ export const Table = () => {
 
     }
 
-    const colNames = ["Title", "Type", "Status", "Priority", "Due date", "Assignees", "Reporter", "Section", "Created", "Updated"]
+    const colNames = ["", "Title", "Type", "Status", "Priority", "Due date", "Assignees", "Reporter", "Section", "Created", "Updated"]
 
     return (
 
@@ -221,9 +222,10 @@ export const Table = () => {
                         </thead>
 
                         <tbody>
-
                             {Object.values(filteredReviewNotes).map((obj) => (
+
                                 <tr key={uuidv4()} >
+                                    <td><input type="checkbox" /></td>
 
                                     {Object.values(obj).map((element, index) => {
                                         if (element === 'Note') { return <td className='text-center text-white bg-gray-500 border border-black' key={index}>{element}</td> }
@@ -249,6 +251,8 @@ export const Table = () => {
                                         return <td key={uuidv4()}>{element}</td>
 
                                     })}
+
+                                    <td><GrLink /></td>
 
                                 </tr>
                             ))}
