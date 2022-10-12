@@ -14,18 +14,17 @@ export const Table2 = () => {
 
     useEffect(() => {
         getUsers()
-            .then((users) => setUsers(users))
+            .then((result) => setUsers(result))
         getReviewnotes()
-            .then((notes) => setReviewNotes(notes))
+            .then((result) => setReviewNotes(result))
     }, [])
 
     useEffect(() => {
-        filterData()
-        if (reviewNotes) console.log(reviewNotes[2].dueDate)
+        filterRows()
     }, [reviewNotes])
 
     useEffect(() => {
-        filterData()
+        filterRows()
     }, [rows])
 
     const getUsers = async () => {
@@ -37,29 +36,6 @@ export const Table2 = () => {
         }
     }
 
-    const filterData = () => {
-        let filteredData = []
-        if (!reviewNotes) return
-        for (let i = 0; i < rows; i++) {
-            if (!reviewNotes[i]) return
-            filteredData.push(reviewNotes[i])
-        }
-        setFilteredReviewNotes(filteredData)
-    }
-
-    const colNames = [
-        "Title",
-        "Type",
-        "Status",
-        "Priority",
-        "Due date",
-        "Assignees",
-        "Reporter",
-        "Section",
-        "Created",
-        "Updated",
-    ]
-
     const getReviewnotes = async () => {
         try {
             const response = await axios.get('http://localhost:8080/reviewnotes')
@@ -69,26 +45,93 @@ export const Table2 = () => {
         }
     }
 
-    const handleSearch = (event, array) => {
+    const filterRows = () => {
+        if (!reviewNotes) return
+        let result = []
+        for (let i = 0; i < rows; i++) {
+            if (!reviewNotes[i]) return
+            result.push(reviewNotes[i])
+        }
+        setFilteredReviewNotes(result)
+    }
+
+    const filterSearch = (event, array) => {
         const searchInput = event.target.value
-        const filteredData = array.filter(value => {
+        const result = array.filter(value => {
             const searchStr = searchInput.toLowerCase()
             const matches = value.title.toLowerCase().includes(searchStr);
             return matches
         })
-        setFilteredReviewNotes(filteredData);
+        setFilteredReviewNotes(result);
     }
 
+    const filterType = (type) => {
+        let result
+        if (type === 'All') { result = reviewNotes.filter(x => x === x) }
+        else { result = reviewNotes.filter(x => x.type === type) }
+        console.log(result)
+    }
+
+    const clearFilters = () => {
+        setFilteredReviewNotes(reviewNotes)
+        setRows(3)
+    }
+
+    const handleLoadMore = () => {
+        setRows((prev) => prev + 3)
+    }
+
+    const colNames = ["Title", "Type", "Status", "Priority", "Due date", "Assignees", "Reporter", "Section", "Created", "Updated"]
 
     return (
 
 
         <div>
-            <input
-                type="text"
-                className='border border-black'
-                onChange={(event) => handleSearch(event, reviewNotes)}
-                placeholder="Search for titles.." />
+
+            <div
+                name="filterBar"
+                className='flex gap-3 my-5'>
+                <div
+                    name="filterSeach"
+                    className='flex flex-col'>
+                    <br />
+                    <input
+                        type="text"
+                        className='border border-black'
+                        onChange={(event) => filterSearch(event, reviewNotes)}
+                        placeholder="Search for titles.." />
+                    <button
+                        className='text-left text-blue-400 underline'
+                        onClick={clearFilters}
+                    >
+                        clear filters
+                    </button>
+                </div>
+
+                <div
+                    name="filterType"
+                >
+                    <p>Type</p>
+                    <button
+                        className='w-20 border border-black'
+                        onClick={() => filterType('All')}
+                    >
+                        All
+                    </button>
+                    <button className='w-20 border border-black'
+                        onClick={() => filterType('Task')}>
+                        Tasks
+                    </button>
+                    <button
+                        className='w-20 border border-black'
+                        onClick={() => filterType('Note')}>
+                        Notes
+                    </button>
+                </div>
+            </div>
+
+
+
 
             <div>
                 {filteredReviewNotes && (
@@ -133,7 +176,7 @@ export const Table2 = () => {
 
                 <button
                     className='bg-blue-100 border border-black'
-                    onClick={() => setRows((prev) => prev + 3)}
+                    onClick={handleLoadMore}
                 >
                     Load more
                 </button>

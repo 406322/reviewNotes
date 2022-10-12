@@ -30,7 +30,7 @@ const formatReviewNotesData = (reviewnotesData) => {
     return reviewnotesData.default.map((element) => {
         return {
             title: element.title,
-            type: element.type,
+            ...(element.type === 'Task' ? { type: 'Task' } : { type: 'Note' }),
             status: element.status,
             priority: element.priority.text,
             dueDate: formatDate(element.dueDate),
