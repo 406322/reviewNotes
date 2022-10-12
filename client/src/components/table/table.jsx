@@ -114,6 +114,13 @@ export const Table = () => {
         setFilterState((prevState) => { return { ...prevState, rows: filterState.rows + 3 } })
     }
 
+    const getPhoto = (element) => {
+        const user = users.filter(user => user.id === element)
+        const photo = user[0].photo
+        return photo
+
+    }
+
     const colNames = ["Title", "Type", "Status", "Priority", "Due date", "Assignees", "Reporter", "Section", "Created", "Updated"]
 
     return (
@@ -205,7 +212,7 @@ export const Table = () => {
 
                         <thead>
                             <tr className='text-left'>
-                                {colNames.map((element, index) => (
+                                {colNames.map((element) => (
                                     <th key={uuidv4()}>
                                         {element}
                                     </th>
@@ -215,14 +222,8 @@ export const Table = () => {
 
                         <tbody>
 
-                            {Object.values(filteredReviewNotes).map((obj, index) => (
+                            {Object.values(filteredReviewNotes).map((obj) => (
                                 <tr key={uuidv4()} >
-
-                                    {/* {
-                                        Object.values(obj).map((value, index2) => (
-                                            <td key={index2}>{value}</td>
-                                        ))
-                                    } */}
 
                                     {Object.values(obj).map((element, index) => {
                                         if (element === 'Note') { return <td className='text-center text-white bg-gray-500 border border-black' key={index}>{element}</td> }
@@ -241,7 +242,11 @@ export const Table = () => {
                                         if (element === 'High') { return <td className='text-center text-white bg-red-500 border border-black' key={index}>{element}</td> }
                                         if (element === 'Medium') { return <td className='text-center text-white bg-yellow-500 border border-black' key={index}>{element}</td> }
                                         if (element === 'Low') { return <td className='text-center text-white bg-green-500 border border-black' key={index}>{element}</td> }
-                                        return <td key={index}>{element}</td>
+
+                                        if (element === '001') { return <td key={index}>{<img className='w-8 h-8 rounded-full' src={getPhoto(element)} title={element} alt={element} />}</td> }
+                                        if (element === '002') { return <td key={index}>{<img className='w-8 h-8 rounded-full' src={getPhoto(element)} title={element} alt={element} />}</td> }
+
+                                        return <td key={uuidv4()}>{element}</td>
 
                                     })}
 
