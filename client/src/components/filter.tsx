@@ -1,7 +1,9 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useAtom } from 'jotai'
 import { reviewNotesAtom, filteredReviewNotesAtom, filterStateAtom, usersAtom } from '../atoms'
 import { ReviewNote } from '../models'
+import { v4 as uuidv4 } from 'uuid'
+
 
 export const Filter = () => {
 
@@ -14,37 +16,33 @@ export const Filter = () => {
         if (reviewNotes) runFilter(reviewNotes)
     }, [reviewNotes, filterState])
 
-
     const runFilter = (data: ReviewNote[]) => {
-        let result = filterRows(data)
-        if (result === undefined) return
-        result = filterSearch(result)
-        result = filterType(result, filterState.type)
+        let result = filterSearch(data, filterState.search)
+        result = filterType(result!, filterState.type)
         result = filterStatus(result, filterState.status)
         result = filterPriority(result, filterState.priority)
         result = filterReporter(result, filterState.reporter)
-        if (result === undefined) return
         result = filterAssignees(result, filterState.assignees)
-        if (result === undefined) return
-
+        result = filterSection(result, filterState.section)
+        result = filterRows(result)
         setFilteredReviewNotes(result)
     }
 
     const filterRows = (data: ReviewNote[]) => {
+        let n = filterState.rows
+        if (data.length < filterState.rows) n = data.length
         let result = []
-        for (let i = 0; i < filterState.rows; i++) {
-            if (!data[i]) return
+        for (let i = 0; i < n; i++) {
             result.push(data[i])
         }
         return result
     }
 
-    const filterSearch = (data: ReviewNote[]) => {
+    const filterSearch = (data: ReviewNote[], searchInput: string) => {
         if (filterState.search === "") return data
-        const searchInput = filterState.search
         const result = data.filter(value => {
             const searchStr = searchInput.toLowerCase()
-            const matches = value.title.toLowerCase().includes(searchStr);
+            const matches = value.title.toLowerCase().includes(searchStr)
             return matches
         })
         return result
@@ -56,33 +54,42 @@ export const Filter = () => {
     }
 
     const filterStatus = (data: ReviewNote[], status: string) => {
+        if (!data) return data
         if (status === 'All') { return data.filter(x => x === x) }
         else { return data.filter(x => x.status === status) }
     }
 
     const filterPriority = (data: ReviewNote[], priority: string) => {
+        if (!data) return data
         if (priority === 'All') { return data.filter(x => x === x) }
         else { return data.filter(x => x.priority === priority) }
     }
 
     const filterReporter = (data: ReviewNote[], reporter: string) => {
+        if (!data) return data
         if (reporter === 'All') { return data.filter(x => x === x) }
-        if (!users) return
         const name = reporter
-        const user = users.filter(x => x.name === name)
+        const user = users!.filter(x => x.name === name)
         const id = user[0].id
         const result = data.filter(x => x.reporter === id)
         return result
     }
 
     const filterAssignees = (data: ReviewNote[], assignees: string) => {
+        if (!data) return data
         if (assignees === 'All') { return data.filter(x => x === x) }
-        if (!users) return
         const name = assignees
-        console.log(name)
-        const user = users.filter(x => x.name === name)
+        const user = users!.filter(x => x.name === name)
         const id = user[0].id
         const result = data.filter(x => x.assignees === id)
+        return result
+    }
+
+    const filterSection = (data: ReviewNote[], section: string) => {
+        if (!data) return data
+        if (section === 'All') { return data.filter(x => x === x) }
+        if (section === 'Section not assigned') { return data.filter(x => x.section === null) }
+        const result = data.filter(x => x.section === section)
         return result
     }
 
@@ -94,12 +101,25 @@ export const Filter = () => {
             status: "All",
             priority: "All",
             reporter: "All",
-            assignees: "All"
+            assignees: "All",
+            section: "All"
         })
         const reporterForm = (document.querySelector('#filterReporter') as HTMLFormElement)
         reporterForm.reset()
         const assigneesForm = (document.querySelector('#filterAssignees') as HTMLFormElement)
         assigneesForm.reset()
+        const sectionForm = (document.querySelector('#filterSection') as HTMLFormElement)
+        sectionForm.reset()
+    }
+
+    const getSectionList = (array: ReviewNote[]) => {
+        const sectionList = array.map(note => { return note.section })
+        let uniqueSectionList = [...new Set(sectionList)]
+        const newArray = uniqueSectionList.map(note => {
+            if (note === null) return 'Section not assigned'
+            return note
+        })
+        return newArray
     }
 
     return (
@@ -108,6 +128,7 @@ export const Filter = () => {
             <div
                 id="filterBar"
                 className='flex gap-3 my-5'>
+
                 <div
                     id="filterSeach"
                     className='flex flex-col ml-3'>
@@ -128,7 +149,6 @@ export const Filter = () => {
                         Clear filters
                     </button>
                 </div>
-
 
                 <div
                     id="filterType">
@@ -153,7 +173,6 @@ export const Filter = () => {
                         Notes
                     </button>
                 </div>
-
 
                 <div
                     id="filterPriority">
@@ -184,7 +203,6 @@ export const Filter = () => {
                     </button>
                 </div>
 
-
                 <form
                     id='filterReporter'>
                     <p>Reporter</p>
@@ -200,7 +218,6 @@ export const Filter = () => {
                         </select>
                     }
                 </form>
-
 
                 <form
                     id='filterAssignees'>
@@ -218,8 +235,24 @@ export const Filter = () => {
                     }
                 </form>
 
-            </div>
+                <form
+                    id='filterSection'>
+                    <p>Section</p>
+                    {reviewNotes &&
+                        < select
+                            className='border border-black' name="section" id="section"
+                            value={filterState.section}
+                            onChange={(event) => setFilterState((prevState) => { return { ...prevState, section: event.target.value } })}
+                        >
+                            <option value="All">All</option>
+                            {getSectionList(reviewNotes).map((element) => {
+                                return <option key={uuidv4()} value={element}>{element}</option>
+                            })}
+                        </select>
+                    }
+                </form>
 
+            </div>
         </div >
     )
 }
