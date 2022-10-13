@@ -11,5 +11,6 @@ export const filterStateAtom = atom<FilterState>({
     status: "All",
     priority: "All",
     reporter: "All",
-    assignees: "All"
+    assignees: "All",
+    section: "All"
 })
