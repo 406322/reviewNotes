@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useAtom } from 'jotai'
 import { reviewNotesAtom, filteredReviewNotesAtom, filterStateAtom } from '../atoms'
+import { ReviewNote } from '../models'
 
 export const Filter = () => {
 
@@ -9,21 +10,22 @@ export const Filter = () => {
     const [filterState, setFilterState] = useAtom(filterStateAtom)
 
     useEffect(() => {
-        runFilter(reviewNotes)
+        if (reviewNotes) runFilter(reviewNotes)
     }, [reviewNotes, filterState])
 
 
-    const runFilter = (data) => {
-        if (!data) return
+    const runFilter = (data: ReviewNote[]) => {
         let result = filterRows(data)
+        if (result === undefined) return
         result = filterSearch(result)
         result = filterType(result, filterState.type)
         result = filterStatus(result, filterState.status)
         result = filterPriority(result, filterState.priority)
+
         setFilteredReviewNotes(result)
     }
 
-    const filterRows = (data) => {
+    const filterRows = (data: ReviewNote[]) => {
         let result = []
         for (let i = 0; i < filterState.rows; i++) {
             if (!data[i]) return
@@ -32,7 +34,7 @@ export const Filter = () => {
         return result
     }
 
-    const filterSearch = (data) => {
+    const filterSearch = (data: ReviewNote[]) => {
         if (filterState.search === "") return data
         const searchInput = filterState.search
         const result = data.filter(value => {
@@ -43,22 +45,19 @@ export const Filter = () => {
         return result
     }
 
-    const filterType = (data, type) => {
-        let result
-        if (type === 'All') { return result = data.filter(x => x === x) }
-        else { return result = data.filter(x => x.type === type) }
+    const filterType = (data: ReviewNote[], type: string) => {
+        if (type === 'All') { return data.filter(x => x === x) }
+        else { return data.filter(x => x.type === type) }
     }
 
-    const filterStatus = (data, status) => {
-        let result
-        if (status === 'All') { return result = data.filter(x => x === x) }
-        else { return result = data.filter(x => x.status === status) }
+    const filterStatus = (data: ReviewNote[], status: string) => {
+        if (status === 'All') { return data.filter(x => x === x) }
+        else { return data.filter(x => x.status === status) }
     }
 
-    const filterPriority = (data, priority) => {
-        let result
-        if (priority === 'All') { return result = data.filter(x => x === x) }
-        else { return result = data.filter(x => x.priority === priority) }
+    const filterPriority = (data: ReviewNote[], priority: string) => {
+        if (priority === 'All') { return data.filter(x => x === x) }
+        else { return data.filter(x => x.priority === priority) }
     }
 
     const clearFilters = () => {
@@ -73,11 +72,12 @@ export const Filter = () => {
 
     return (
         <div>
+
             <div
-                name="filterBar"
+                id="filterBar"
                 className='flex gap-3 my-5'>
                 <div
-                    name="filterSeach"
+                    id="filterSeach"
                     className='flex flex-col ml-3'>
                     <br />
                     <input
@@ -97,7 +97,9 @@ export const Filter = () => {
                     </button>
                 </div>
 
-                <div name="filterType">
+
+                <div
+                    id="filterType">
                     <p>Type</p>
                     <button
                         name='all'
@@ -121,8 +123,8 @@ export const Filter = () => {
                 </div>
 
 
-
-                <div name="filterPriority">
+                <div
+                    id="filterPriority">
                     <p>Priority</p>
                     <button
                         className={'w-20 ' + (filterState.priority === 'All' ? 'bg-blue-400 border border-black' : 'bg-white border border-black')}
