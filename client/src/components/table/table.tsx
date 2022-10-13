@@ -33,81 +33,80 @@ export const Table = () => {
     return (
 
         <div>
-            <div>
-                {filteredReviewNotes && (
+            {filteredReviewNotes && (
 
-                    <table className='w-full border-separate table-fixed border-spacing-2'>
+                <table className='w-full border-separate table-fixed border-spacing-2'>
 
-                        <thead>
-                            <tr className='text-left'>
-                                {colNames.map((element) => {
-                                    if (element === '') { return <th className='w-3' key={uuidv4()}>{element}</th> }
-                                    if (element === 'Title') { return <th className='w-64 font-semibold' key={uuidv4()}>{element}</th> }
-                                    if (element === 'Type') { return <th className='font-semibold w-14' key={uuidv4()}>{element}</th> }
-                                    if (element === 'Status') { return <th className='w-48 font-semibold' key={uuidv4()}>{element}</th> }
-                                    if (element === 'Priority') { return <th className='w-20 font-semibold' key={uuidv4()}>{element}</th> }
-                                    if (element === 'Due date') { return <th className='w-20 font-semibold' key={uuidv4()}>{element}</th> }
-                                    if (element === 'Assignees') { return <th className='w-20 font-semibold' key={uuidv4()}>{element}</th> }
-                                    if (element === 'Reporter') { return <th className='w-20 font-semibold' key={uuidv4()}>{element}</th> }
-                                    if (element === 'Section') { return <th className='w-48 font-semibold' key={uuidv4()}>{element}</th> }
-                                    if (element === 'Created') { return <th className='w-32 font-semibold' key={uuidv4()}>{element}</th> }
-                                    if (element === 'Updated') { return <th className='w-32 font-semibold' key={uuidv4()}>{element}</th> }
+                    <thead>
+                        <tr className='text-left'>
+                            {colNames.map((element) => {
+                                if (element === '') { return <th className='w-3' key={uuidv4()}>{element}</th> }
+                                if (element === 'Title') { return <th className='w-64 font-semibold' key={uuidv4()}>{element}</th> }
+                                if (element === 'Type') { return <th className='font-semibold w-14' key={uuidv4()}>{element}</th> }
+                                if (element === 'Status') { return <th className='w-48 font-semibold' key={uuidv4()}>{element}</th> }
+                                if (element === 'Priority') { return <th className='w-20 font-semibold' key={uuidv4()}>{element}</th> }
+                                if (element === 'Due date') { return <th className='w-20 font-semibold' key={uuidv4()}>{element}</th> }
+                                if (element === 'Assignees') { return <th className='w-20 font-semibold' key={uuidv4()}>{element}</th> }
+                                if (element === 'Reporter') { return <th className='w-20 font-semibold' key={uuidv4()}>{element}</th> }
+                                if (element === 'Section') { return <th className='w-48 font-semibold' key={uuidv4()}>{element}</th> }
+                                if (element === 'Created') { return <th className='w-32 font-semibold' key={uuidv4()}>{element}</th> }
+                                if (element === 'Updated') { return <th className='w-32 font-semibold' key={uuidv4()}>{element}</th> }
 
-                                    return <th key={uuidv4()}>{element}</th>
+                                return <th key={uuidv4()}>{element}</th>
+                            })}
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {Object.values(filteredReviewNotes).map((obj) => (
+
+                            <tr key={uuidv4()} >
+                                <td><input type="checkbox" /></td>
+
+                                {Object.values(obj).map((element, index) => {
+                                    if (element === 'Note') { return <td className='text-sm text-center text-white bg-gray-500 border border-black' key={index}>{element}</td> }
+                                    if (element === 'Task') { return <td className='text-sm text-center text-white bg-gray-500 border border-black' key={index}>{element}</td> }
+
+                                    if (element === 'In Progress') { return <td className='text-sm text-center text-white bg-blue-500 border border-black' key={index}>{element}</td> }
+                                    if (element === 'Not started') { return <td className='text-sm text-center text-white bg-gray-500 border border-black' key={index}>{element}</td> }
+                                    if (element === 'Addressed') { return <td className='text-sm text-center text-white bg-green-500 border border-black' key={index}>{element}</td> }
+                                    if (element === 'Pending documentation') { return <td className='text-sm text-center text-white bg-yellow-500 border border-black' key={index}>{element}</td> }
+                                    if (element === 'Closed') { return <td className='text-sm text-center text-white bg-black border border-black' key={index}>{element}</td> }
+
+                                    if (element === 'Engagement information') { return <td className='text-sm text-center text-white bg-gray-500 border border-black' key={index}>{element}</td> }
+                                    if (element === 'Independence') { return <td className='text-sm text-center text-white bg-gray-500 border border-black' key={index}>{element}</td> }
+                                    if (element === 'Scope') { return <td className='text-sm text-center text-white bg-gray-500 border border-black' key={index}>{element}</td> }
+
+                                    if (element === 'High') { return <td className='text-sm text-center text-white bg-red-500 border border-black' key={index}>{element}</td> }
+                                    if (element === 'Medium') { return <td className='text-sm text-center text-white bg-yellow-500 border border-black' key={index}>{element}</td> }
+                                    if (element === 'Low') { return <td className='text-sm text-center text-white bg-green-500 border border-black' key={index}>{element}</td> }
+
+                                    if (element === '001') { return <td key={index}>{<img className='w-8 h-8 rounded-full' src={getPhoto(users, element)} title={element} alt={element} />}</td> }
+                                    if (element === '002') { return <td key={index}>{<img className='w-8 h-8 rounded-full' src={getPhoto(users, element)} title={element} alt={element} />}</td> }
+
+                                    if (isDate(element)) { return <td className='text-sm' key={uuidv4()}>{formatDate(element)}</td> }
+
+                                    return <td className='text-sm' key={uuidv4()}>{element}</td>
+
                                 })}
+
+                                <td id='linkIcon'><GrLink /></td>
+
                             </tr>
-                        </thead>
+                        ))}
 
-                        <tbody>
-                            {Object.values(filteredReviewNotes).map((obj) => (
+                    </tbody>
+                </table>
+            )}
 
-                                <tr key={uuidv4()} >
-                                    <td><input type="checkbox" /></td>
+            <button
+                id='loadMoreButton'
+                className='w-full h-8 mt-1 text-sm text-blue-600 underline bg-blue-100 border border-black '
+                onClick={handleLoadMore}
+            >
+                Load more
+            </button>
 
-                                    {Object.values(obj).map((element, index) => {
-                                        if (element === 'Note') { return <td className='text-sm text-center text-white bg-gray-500 border border-black' key={index}>{element}</td> }
-                                        if (element === 'Task') { return <td className='text-sm text-center text-white bg-gray-500 border border-black' key={index}>{element}</td> }
-
-                                        if (element === 'In Progress') { return <td className='text-sm text-center text-white bg-blue-500 border border-black' key={index}>{element}</td> }
-                                        if (element === 'Not started') { return <td className='text-sm text-center text-white bg-gray-500 border border-black' key={index}>{element}</td> }
-                                        if (element === 'Addressed') { return <td className='text-sm text-center text-white bg-green-500 border border-black' key={index}>{element}</td> }
-                                        if (element === 'Pending documentation') { return <td className='text-sm text-center text-white bg-yellow-500 border border-black' key={index}>{element}</td> }
-                                        if (element === 'Closed') { return <td className='text-sm text-center text-white bg-black border border-black' key={index}>{element}</td> }
-
-                                        if (element === 'Engagement information') { return <td className='text-sm text-center text-white bg-gray-500 border border-black' key={index}>{element}</td> }
-                                        if (element === 'Independence') { return <td className='text-sm text-center text-white bg-gray-500 border border-black' key={index}>{element}</td> }
-                                        if (element === 'Scope') { return <td className='text-sm text-center text-white bg-gray-500 border border-black' key={index}>{element}</td> }
-
-                                        if (element === 'High') { return <td className='text-sm text-center text-white bg-red-500 border border-black' key={index}>{element}</td> }
-                                        if (element === 'Medium') { return <td className='text-sm text-center text-white bg-yellow-500 border border-black' key={index}>{element}</td> }
-                                        if (element === 'Low') { return <td className='text-sm text-center text-white bg-green-500 border border-black' key={index}>{element}</td> }
-
-                                        if (element === '001') { return <td key={index}>{<img className='w-8 h-8 rounded-full' src={getPhoto(users, element)} title={element} alt={element} />}</td> }
-                                        if (element === '002') { return <td key={index}>{<img className='w-8 h-8 rounded-full' src={getPhoto(users, element)} title={element} alt={element} />}</td> }
-
-                                        if (isDate(element)) { return <td className='text-sm' key={uuidv4()}>{formatDate(element)}</td> }
-
-                                        return <td className='text-sm' key={uuidv4()}>{element}</td>
-
-                                    })}
-
-                                    <td><GrLink /></td>
-
-                                </tr>
-                            ))}
-
-                        </tbody>
-                    </table>
-                )}
-
-                <button
-                    className='w-full h-8 mt-1 text-sm text-blue-600 underline bg-blue-100 border border-black '
-                    onClick={handleLoadMore}
-                >
-                    Load more
-                </button>
-
-            </div >
-        </div>
+        </div >
     )
 }

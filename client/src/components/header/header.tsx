@@ -1,9 +1,10 @@
 
-
 export const Header = () => {
     return (
         <>
-            <div className="flex gap-1 m-3">
+            <div
+                id="breadcrumbs"
+                className="flex gap-1 m-3">
                 <p className="text-sm text-blue-400 underline">Engagements</p>
                 <p className="text-sm">&gt;</p>
                 <p className="text-sm text-blue-400 underline">Microsoft 2021</p>
@@ -12,6 +13,7 @@ export const Header = () => {
             </div>
 
             <div
+                id="header"
                 className="flex gap-8 border-b-2 border-black">
                 <h1 className="p-5 text-3xl font-bold">Review notes</h1>
                 <div className="flex flex-col justify-center">
