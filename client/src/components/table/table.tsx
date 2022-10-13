@@ -2,8 +2,8 @@ import { useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { GrLink } from 'react-icons/gr'
 import { useAtom } from 'jotai'
-import { usersAtom, reviewNotesAtom, filteredReviewNotesAtom, filterStateAtom } from '../atoms'
-import * as api from '../api'
+import { usersAtom, reviewNotesAtom, filteredReviewNotesAtom, filterStateAtom } from '../../atoms'
+import * as api from '../../api'
 
 
 export const Table = () => {

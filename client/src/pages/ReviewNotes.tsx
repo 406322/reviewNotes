@@ -1,5 +1,5 @@
-import { Table } from "../components/table"
-import { Filter } from "../components/filter"
+import { Table } from "../components/table/table"
+import { Filter } from "../components/filter/filter"
 
 const ReviewNotes = () => {
     return (
