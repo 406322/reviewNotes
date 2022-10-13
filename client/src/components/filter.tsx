@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useAtom } from 'jotai'
 import { reviewNotesAtom, filteredReviewNotesAtom, filterStateAtom, usersAtom } from '../atoms'
 import { ReviewNote } from '../models'
@@ -16,9 +16,7 @@ export const Filter = () => {
         if (reviewNotes) runFilter(reviewNotes)
     }, [reviewNotes, filterState])
 
-
     const runFilter = (data: ReviewNote[]) => {
-
         let result = filterSearch(data, filterState.search)
         result = filterType(result!, filterState.type)
         result = filterStatus(result, filterState.status)
@@ -30,122 +28,68 @@ export const Filter = () => {
         setFilteredReviewNotes(result)
     }
 
-
-
     const filterRows = (data: ReviewNote[]) => {
-        try {
-            let n = filterState.rows
-            if (data.length < filterState.rows) n = data.length
-            let result = []
-            for (let i = 0; i < n; i++) {
-                result.push(data[i])
-            }
-            return result
-        } catch (error) {
-            console.log(error)
-            return data
+        let n = filterState.rows
+        if (data.length < filterState.rows) n = data.length
+        let result = []
+        for (let i = 0; i < n; i++) {
+            result.push(data[i])
         }
+        return result
     }
 
-
-
     const filterSearch = (data: ReviewNote[], searchInput: string) => {
-        try {
-            if (filterState.search === "") return data
-            const result = data.filter(value => {
-                const searchStr = searchInput.toLowerCase()
-                const matches = value.title.toLowerCase().includes(searchStr)
-                return matches
-            })
-            return result
-        } catch (error) {
-            console.log(error)
-        }
-
-
+        if (filterState.search === "") return data
+        const result = data.filter(value => {
+            const searchStr = searchInput.toLowerCase()
+            const matches = value.title.toLowerCase().includes(searchStr)
+            return matches
+        })
+        return result
     }
 
     const filterType = (data: ReviewNote[], type: string) => {
-        try {
-            if (type === 'All') { return data.filter(x => x === x) }
-            else { return data.filter(x => x.type === type) }
-        } catch (error) {
-            console.log(error)
-            return data
-        }
+        if (type === 'All') { return data.filter(x => x === x) }
+        else { return data.filter(x => x.type === type) }
     }
-
-
-
 
     const filterStatus = (data: ReviewNote[], status: string) => {
-        try {
-            if (!data) return data
-            if (status === 'All') { return data.filter(x => x === x) }
-            else { return data.filter(x => x.status === status) }
-        } catch (error) {
-            console.log(error)
-            return data
-        }
+        if (!data) return data
+        if (status === 'All') { return data.filter(x => x === x) }
+        else { return data.filter(x => x.status === status) }
     }
-
-
-
 
     const filterPriority = (data: ReviewNote[], priority: string) => {
-        try {
-            if (!data) return data
-            if (priority === 'All') { return data.filter(x => x === x) }
-            else { return data.filter(x => x.priority === priority) }
-        } catch (error) {
-            console.log(error)
-            return data
-        }
+        if (!data) return data
+        if (priority === 'All') { return data.filter(x => x === x) }
+        else { return data.filter(x => x.priority === priority) }
     }
-
 
     const filterReporter = (data: ReviewNote[], reporter: string) => {
-        try {
-            if (!data) return data
-            if (reporter === 'All') { return data.filter(x => x === x) }
-            const name = reporter
-            const user = users!.filter(x => x.name === name)
-            const id = user[0].id
-            const result = data.filter(x => x.reporter === id)
-            return result
-        } catch (error) {
-            console.log(error)
-            return data
-        }
+        if (!data) return data
+        if (reporter === 'All') { return data.filter(x => x === x) }
+        const name = reporter
+        const user = users!.filter(x => x.name === name)
+        const id = user[0].id
+        const result = data.filter(x => x.reporter === id)
+        return result
     }
 
-
-
     const filterAssignees = (data: ReviewNote[], assignees: string) => {
-        try {
-            if (!data) return data
-            if (assignees === 'All') { return data.filter(x => x === x) }
-            const name = assignees
-            const user = users!.filter(x => x.name === name)
-            const id = user[0].id
-            const result = data.filter(x => x.assignees === id)
-            return result
-        } catch (error) {
-            return data
-        }
+        if (!data) return data
+        if (assignees === 'All') { return data.filter(x => x === x) }
+        const name = assignees
+        const user = users!.filter(x => x.name === name)
+        const id = user[0].id
+        const result = data.filter(x => x.assignees === id)
+        return result
     }
 
     const filterSection = (data: ReviewNote[], section: string) => {
-        try {
-            if (!data) return data
-            if (section === 'All') { return data.filter(x => x === x) }
-            //if (!users) return
-            const result = data.filter(x => x.section === section)
-            return result
-        } catch (error) {
-            console.log(error)
-            return data
-        }
+        if (!data) return data
+        if (section === 'All') { return data.filter(x => x === x) }
+        const result = data.filter(x => x.section === section)
+        return result
     }
 
     const clearFilters = () => {
@@ -163,6 +107,8 @@ export const Filter = () => {
         reporterForm.reset()
         const assigneesForm = (document.querySelector('#filterAssignees') as HTMLFormElement)
         assigneesForm.reset()
+        const sectionForm = (document.querySelector('#filterSection') as HTMLFormElement)
+        sectionForm.reset()
     }
 
     const getSectionList = (array: ReviewNote[]) => {
@@ -181,6 +127,7 @@ export const Filter = () => {
             <div
                 id="filterBar"
                 className='flex gap-3 my-5'>
+
                 <div
                     id="filterSeach"
                     className='flex flex-col ml-3'>
@@ -201,7 +148,6 @@ export const Filter = () => {
                         Clear filters
                     </button>
                 </div>
-
 
                 <div
                     id="filterType">
@@ -226,7 +172,6 @@ export const Filter = () => {
                         Notes
                     </button>
                 </div>
-
 
                 <div
                     id="filterPriority">
@@ -257,7 +202,6 @@ export const Filter = () => {
                     </button>
                 </div>
 
-
                 <form
                     id='filterReporter'>
                     <p>Reporter</p>
@@ -273,7 +217,6 @@ export const Filter = () => {
                         </select>
                     }
                 </form>
-
 
                 <form
                     id='filterAssignees'>
@@ -291,25 +234,24 @@ export const Filter = () => {
                     }
                 </form>
 
-
                 <form
                     id='filterSection'>
                     <p>Section</p>
                     {reviewNotes &&
                         < select
                             className='border border-black' name="section" id="section"
+                            value={filterState.section}
                             onChange={(event) => setFilterState((prevState) => { return { ...prevState, section: event.target.value } })}
                         >
-                            <option value="All">{filterState.section}</option>
-                            {getSectionList(reviewNotes).map((value) => {
-                                return <option key={uuidv4()} value={value}>{value}</option>
+                            <option value="All">All</option>
+                            {getSectionList(reviewNotes).map((element) => {
+                                return <option key={uuidv4()} value={element}>{element}</option>
                             })}
                         </select>
                     }
                 </form>
 
             </div>
-
         </div >
     )
 }
