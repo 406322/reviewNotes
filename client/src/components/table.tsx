@@ -29,7 +29,8 @@ export const Table = () => {
         setFilterState((prevState) => { return { ...prevState, rows: filterState.rows + 3 } })
     }
 
-    const getPhoto = (element) => {
+    const getPhoto = (element: string) => {
+        if (!users) return
         const user = users.filter(user => user.id === element)
         const photo = user[0].photo
         return photo
