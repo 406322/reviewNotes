@@ -26,5 +26,6 @@ export interface FilterState {
     priority: string,
     reporter: string,
     assignees: string,
-    section: string
+    section: string,
+    date: string
 }

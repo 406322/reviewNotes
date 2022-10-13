@@ -37,6 +37,21 @@ export const Table = () => {
 
     }
 
+    const formatDate = (string: string) => {
+        const day = string.slice(8, 10)
+        const month = string.slice(5, 7)
+        const year = string.slice(0, 4)
+        return day + '.' + month + '.' + year
+    }
+
+    function isDate(dateString: any) {
+        if (typeof dateString !== 'string') return
+        var d = new Date(dateString);
+        var dNum = d.getTime();
+        if (!dNum && dNum !== 0) return false
+        return d.toISOString().slice(0, 10) === dateString;
+    }
+
     const colNames = ["", "Title", "Type", "Status", "Priority", "Due date", "Assignees", "Reporter", "Section", "Created", "Updated"]
 
     return (
@@ -93,6 +108,8 @@ export const Table = () => {
 
                                         if (element === '001') { return <td key={index}>{<img className='w-8 h-8 rounded-full' src={getPhoto(element)} title={element} alt={element} />}</td> }
                                         if (element === '002') { return <td key={index}>{<img className='w-8 h-8 rounded-full' src={getPhoto(element)} title={element} alt={element} />}</td> }
+
+                                        if (isDate(element)) { return <td className='text-sm' key={uuidv4()}>{formatDate(element)}</td> }
 
                                         return <td className='text-sm' key={uuidv4()}>{element}</td>
 

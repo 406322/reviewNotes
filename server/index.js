@@ -40,7 +40,7 @@ const formatReviewNotesData = (reviewnotesData) => {
             ...(element.type === 'Task' ? { type: 'Task' } : { type: 'Note' }),
             status: element.status,
             priority: element.priority.text,
-            dueDate: formatDate(element.dueDate),
+            dueDate: element.dueDate,
             ...(element.assignees[0] ? { assignees: element.assignees[0].$oid } : { assignees: [] }),
             reporter: element.reporterId.$oid,
             section: formatSection(element.sectionRef),

@@ -13,4 +13,5 @@ export const filterStateAtom = atom<FilterState>({
     reporter: "All",
     assignees: "All",
     section: "All",
+    date: ""
 })
