@@ -24,6 +24,7 @@ export const Filter = () => {
         result = filterReporter(result, filterState.reporter)
         result = filterAssignees(result, filterState.assignees)
         result = filterSection(result, filterState.section)
+        result = filterDate(result, filterState.date)
         result = filterRows(result)
         setFilteredReviewNotes(result)
     }
@@ -93,6 +94,13 @@ export const Filter = () => {
         return result
     }
 
+    const filterDate = (data: ReviewNote[], date: string) => {
+        if (!data) return data
+        if (date === "") return data
+        const result = data.filter(x => x.dueDate === date)
+        return result
+    }
+
     const clearFilters = () => {
         setFilterState({
             rows: 3,
@@ -102,7 +110,8 @@ export const Filter = () => {
             priority: "All",
             reporter: "All",
             assignees: "All",
-            section: "All"
+            section: "All",
+            date: ""
         })
         const reporterForm = (document.querySelector('#filterReporter') as HTMLFormElement)
         reporterForm.reset()
@@ -110,6 +119,8 @@ export const Filter = () => {
         assigneesForm.reset()
         const sectionForm = (document.querySelector('#filterSection') as HTMLFormElement)
         sectionForm.reset()
+        const dateForm = (document.querySelector('#filterDate') as HTMLFormElement)
+        dateForm.reset()
     }
 
     const getSectionList = (array: ReviewNote[]) => {
@@ -253,7 +264,7 @@ export const Filter = () => {
                 </form>
 
 
-                <div
+                <form
                     id="filterDate"
                     className=''>
                     <br />
@@ -261,9 +272,9 @@ export const Filter = () => {
                         name='date'
                         type="date"
                         className='border border-black'
-                        onChange={(event) => console.log(event.target.value)}
+                        onChange={(event) => setFilterState((prevState) => { return { ...prevState, date: event.target.value } })}
                     />
-                </div>
+                </form>
 
             </div>
         </div >
