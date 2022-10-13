@@ -60,7 +60,7 @@ export const Table = () => {
             <div>
                 {filteredReviewNotes && (
 
-                    <table className='w-full border border-separate table-fixed border-spacing-2'>
+                    <table className='w-full border-separate table-fixed border-spacing-2'>
 
                         <thead>
                             <tr className='text-left'>
@@ -125,7 +125,7 @@ export const Table = () => {
                 )}
 
                 <button
-                    className='w-full text-blue-600 underline bg-blue-100 border border-black'
+                    className='w-full h-8 mt-1 text-sm text-blue-600 underline bg-blue-100 border border-black '
                     onClick={handleLoadMore}
                 >
                     Load more
