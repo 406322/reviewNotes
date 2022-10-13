@@ -1,23 +1,17 @@
 import axios from 'axios'
-import { useEffect, useState } from 'react'
-import { ReviewNote } from '../../models'
+import { useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { GrLink } from 'react-icons/gr'
+import { useAtom } from 'jotai'
+import { usersAtom, reviewNotesAtom, filteredReviewNotesAtom, filterStateAtom } from '../../atoms'
 
 
 export const Table = () => {
 
-    const [users, setUsers] = useState(null)
-    const [reviewNotes, setReviewNotes] = useState(null)
-    const [filteredReviewNotes, setFilteredReviewNotes] = useState(null)
-
-    const [filterState, setFilterState] = useState({
-        rows: 3,
-        search: "",
-        type: "All",
-        status: "All",
-        priority: "All"
-    })
+    const [users, setUsers] = useAtom(usersAtom)
+    const [reviewNotes, setReviewNotes] = useAtom(reviewNotesAtom)
+    const [filteredReviewNotes, setFilteredReviewNotes] = useAtom(filteredReviewNotesAtom)
+    const [filterState, setFilterState] = useAtom(filterStateAtom)
 
     const runFilter = (data) => {
         if (!data) return
