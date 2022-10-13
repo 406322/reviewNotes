@@ -138,7 +138,7 @@ export const Filter = () => {
 
             <div
                 id="filterBar"
-                className='flex gap-3 my-5'>
+                className='flex gap-6 my-5'>
 
                 <div
                     id="filterSeach"
@@ -166,20 +166,20 @@ export const Filter = () => {
                     <p>Type</p>
                     <button
                         name='all'
-                        className={'w-20 ' + (filterState.type === 'All' ? 'bg-blue-400 border border-black' : 'bg-white border border-black')}
+                        className={'w-16 text-sm ' + (filterState.type === 'All' ? 'bg-blue-400 border border-black' : 'bg-white border border-black')}
                         onClick={() => setFilterState((prevState) => { return { ...prevState, type: 'All' } })}
                     >
                         All
                     </button>
                     <button
                         name='task'
-                        className={'w-20 ' + (filterState.type === 'Task' ? 'bg-blue-400 border border-black' : 'bg-white border border-black')}
+                        className={'w-16 text-sm ' + (filterState.type === 'Task' ? 'bg-blue-400 border border-black' : 'bg-white border border-black')}
                         onClick={() => setFilterState((prevState) => { return { ...prevState, type: 'Task' } })}>
                         Tasks
                     </button>
                     <button
                         name='note'
-                        className={'w-20 ' + (filterState.type === 'Note' ? 'bg-blue-400 border border-black' : 'bg-white border border-black')}
+                        className={'w-16 text-sm ' + (filterState.type === 'Note' ? 'bg-blue-400 border border-black' : 'bg-white border border-black')}
                         onClick={() => setFilterState((prevState) => { return { ...prevState, type: 'Note' } })}>
                         Notes
                     </button>
@@ -189,25 +189,25 @@ export const Filter = () => {
                     id="filterPriority">
                     <p>Priority</p>
                     <button
-                        className={'w-20 ' + (filterState.priority === 'All' ? 'bg-blue-400 border border-black' : 'bg-white border border-black')}
+                        className={'w-16 text-sm ' + (filterState.priority === 'All' ? 'bg-blue-400 border border-black' : 'bg-white border border-black')}
                         onClick={() => setFilterState((prevState) => { return { ...prevState, priority: 'All' } })}
                     >
                         All
                     </button>
                     <button
-                        className={'w-20 ' + (filterState.priority === 'Low' ? 'bg-blue-400 border border-black' : 'bg-white border border-black')}
+                        className={'w-16 text-sm ' + (filterState.priority === 'Low' ? 'bg-blue-400 border border-black' : 'bg-white border border-black')}
                         onClick={() => setFilterState((prevState) => { return { ...prevState, priority: 'Low' } })}
                     >
                         Low
                     </button>
                     <button
-                        className={'w-20 ' + (filterState.priority === 'Medium' ? 'bg-blue-400 border border-black' : 'bg-white border border-black')}
+                        className={'w-16 text-sm ' + (filterState.priority === 'Medium' ? 'bg-blue-400 border border-black' : 'bg-white border border-black')}
                         onClick={() => setFilterState((prevState) => { return { ...prevState, priority: 'Medium' } })}
                     >
                         Medium
                     </button>
                     <button
-                        className={'w-20 ' + (filterState.priority === 'High' ? 'bg-blue-400 border border-black' : 'bg-white border border-black')}
+                        className={'w-16 text-sm ' + (filterState.priority === 'High' ? 'bg-blue-400 border border-black' : 'bg-white border border-black')}
                         onClick={() => setFilterState((prevState) => { return { ...prevState, priority: 'High' } })}
                     >
                         High
@@ -219,7 +219,7 @@ export const Filter = () => {
                     <p>Reporter</p>
                     {users &&
                         < select
-                            className='border border-black' name="reporter" id="reporter"
+                            className='text-sm border border-black' name="reporter" id="reporter"
                             onChange={(event) => setFilterState((prevState) => { return { ...prevState, reporter: event.target.value } })}
                         >
                             <option value="All">All</option>
@@ -235,7 +235,7 @@ export const Filter = () => {
                     <p>Assignees</p>
                     {users &&
                         < select
-                            className='border border-black' name="assignees" id="assignees"
+                            className='text-sm border border-black' name="assignees" id="assignees"
                             onChange={(event) => setFilterState((prevState) => { return { ...prevState, assignees: event.target.value } })}
                         >
                             <option value="All">All</option>
@@ -251,7 +251,7 @@ export const Filter = () => {
                     <p>Section</p>
                     {reviewNotes &&
                         < select
-                            className='border border-black' name="section" id="section"
+                            className='text-sm border border-black' name="section" id="section"
                             value={filterState.section}
                             onChange={(event) => setFilterState((prevState) => { return { ...prevState, section: event.target.value } })}
                         >
@@ -266,8 +266,8 @@ export const Filter = () => {
 
                 <form
                     id="filterDate"
-                    className=''>
-                    <br />
+                    className='text-sm'>
+                    <p className='text-base'>Date</p>
                     <input
                         name='date'
                         type="date"
