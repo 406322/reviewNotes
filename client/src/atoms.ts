@@ -9,5 +9,6 @@ export const filterStateAtom = atom<FilterState>({
     search: "",
     type: "All",
     status: "All",
-    priority: "All"
+    priority: "All",
+    reporter: "All",
 })

@@ -23,5 +23,6 @@ export interface FilterState {
     search: string,
     type: string,
     status: string
-    priority: string
+    priority: string,
+    reporter: string
 }

@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
 import { useAtom } from 'jotai'
-import { reviewNotesAtom, filteredReviewNotesAtom, filterStateAtom } from '../atoms'
+import { reviewNotesAtom, filteredReviewNotesAtom, filterStateAtom, usersAtom } from '../atoms'
 import { ReviewNote } from '../models'
 
 export const Filter = () => {
 
+    const [users, setUsers] = useAtom(usersAtom)
     const [reviewNotes, setReviewNotes] = useAtom(reviewNotesAtom)
     const [filteredReviewNotes, setFilteredReviewNotes] = useAtom(filteredReviewNotesAtom)
     const [filterState, setFilterState] = useAtom(filterStateAtom)
@@ -21,6 +22,8 @@ export const Filter = () => {
         result = filterType(result, filterState.type)
         result = filterStatus(result, filterState.status)
         result = filterPriority(result, filterState.priority)
+        result = filterReporter(result, filterState.reporter)
+        if (result === undefined) return
 
         setFilteredReviewNotes(result)
     }
@@ -60,14 +63,27 @@ export const Filter = () => {
         else { return data.filter(x => x.priority === priority) }
     }
 
+    const filterReporter = (data: ReviewNote[], reporter: string) => {
+        if (reporter === 'All') { return data.filter(x => x === x) }
+        if (!users) return
+        const name = reporter
+        const user = users.filter(x => x.name === name)
+        const id = user[0].id
+        const result = data.filter(x => x.reporter === id)
+        return result
+    }
+
     const clearFilters = () => {
         setFilterState({
             rows: 3,
             search: "",
             type: "All",
             status: "All",
-            priority: "All"
+            priority: "All",
+            reporter: "All",
         })
+        const form = (document.querySelector('#filterReporter') as HTMLFormElement)
+        form.reset()
     }
 
     return (
@@ -152,8 +168,25 @@ export const Filter = () => {
                     </button>
                 </div>
 
+
+                <form
+                    id='filterReporter'>
+                    <p>Reporter</p>
+                    {users &&
+                        < select
+                            className='border border-black' name="reporter" id="reporter"
+                            onChange={(event) => setFilterState((prevState) => { return { ...prevState, reporter: event.target.value } })}
+                        >
+                            <option value="All">All</option>
+                            {users.map((user) => {
+                                return <option key={user.id} value={user.name}>{user.name}</option>
+                            })}
+                        </select>
+                    }
+                </form>
+
             </div>
 
-        </div>
+        </div >
     )
 }
