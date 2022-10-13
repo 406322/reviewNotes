@@ -252,6 +252,19 @@ export const Filter = () => {
                     }
                 </form>
 
+
+                <div
+                    id="filterDate"
+                    className=''>
+                    <br />
+                    <input
+                        name='date'
+                        type="date"
+                        className='border border-black'
+                        onChange={(event) => console.log(event.target.value)}
+                    />
+                </div>
+
             </div>
         </div >
     )
