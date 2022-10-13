@@ -24,6 +24,8 @@ export const Filter = () => {
         result = filterPriority(result, filterState.priority)
         result = filterReporter(result, filterState.reporter)
         if (result === undefined) return
+        result = filterAssignees(result, filterState.assignees)
+        if (result === undefined) return
 
         setFilteredReviewNotes(result)
     }
@@ -73,6 +75,17 @@ export const Filter = () => {
         return result
     }
 
+    const filterAssignees = (data: ReviewNote[], assignees: string) => {
+        if (assignees === 'All') { return data.filter(x => x === x) }
+        if (!users) return
+        const name = assignees
+        console.log(name)
+        const user = users.filter(x => x.name === name)
+        const id = user[0].id
+        const result = data.filter(x => x.assignees === id)
+        return result
+    }
+
     const clearFilters = () => {
         setFilterState({
             rows: 3,
@@ -81,9 +94,12 @@ export const Filter = () => {
             status: "All",
             priority: "All",
             reporter: "All",
+            assignees: "All"
         })
-        const form = (document.querySelector('#filterReporter') as HTMLFormElement)
-        form.reset()
+        const reporterForm = (document.querySelector('#filterReporter') as HTMLFormElement)
+        reporterForm.reset()
+        const assigneesForm = (document.querySelector('#filterAssignees') as HTMLFormElement)
+        assigneesForm.reset()
     }
 
     return (
@@ -176,6 +192,23 @@ export const Filter = () => {
                         < select
                             className='border border-black' name="reporter" id="reporter"
                             onChange={(event) => setFilterState((prevState) => { return { ...prevState, reporter: event.target.value } })}
+                        >
+                            <option value="All">All</option>
+                            {users.map((user) => {
+                                return <option key={user.id} value={user.name}>{user.name}</option>
+                            })}
+                        </select>
+                    }
+                </form>
+
+
+                <form
+                    id='filterAssignees'>
+                    <p>Assignees</p>
+                    {users &&
+                        < select
+                            className='border border-black' name="assignees" id="assignees"
+                            onChange={(event) => setFilterState((prevState) => { return { ...prevState, assignees: event.target.value } })}
                         >
                             <option value="All">All</option>
                             {users.map((user) => {
