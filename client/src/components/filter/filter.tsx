@@ -4,15 +4,15 @@ import { reviewNotesAtom, filteredReviewNotesAtom, filterStateAtom, usersAtom } 
 import { ReviewNote } from '../../models'
 
 import {
-    filterAssignees,
-    filterDate,
+    filterSearch,
+    filterType,
     filterPriority,
     filterReporter,
-    filterRows,
-    filterSearch,
+    filterAssignees,
     filterSection,
+    filterDate,
+    filterRows,
     filterStatus,
-    filterType,
 } from './functions'
 
 import { FilterSearch } from './filterComponents/filterSearch'
