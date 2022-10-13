@@ -23,6 +23,7 @@ export const Table = () => {
 
 
     const handleLoadMore = () => {
+        if (!reviewNotes) return
         const isMaxRows = (reviewNotes.length) <= filterState.rows
         if (isMaxRows) return
         setFilterState((prevState) => { return { ...prevState, rows: filterState.rows + 3 } })
