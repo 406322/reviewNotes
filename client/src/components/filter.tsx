@@ -88,6 +88,7 @@ export const Filter = () => {
     const filterSection = (data: ReviewNote[], section: string) => {
         if (!data) return data
         if (section === 'All') { return data.filter(x => x === x) }
+        if (section === 'Section not assigned') { return data.filter(x => x.section === null) }
         const result = data.filter(x => x.section === section)
         return result
     }
