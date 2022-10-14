@@ -31,13 +31,13 @@ export const filterType = (data: ReviewNote[], type: string) => {
 }
 
 export const filterPriority = (data: ReviewNote[], priority: string) => {
-    if (!data) return data
+    // if (!data) return data
     if (priority === 'All') { return data.filter(x => x === x) }
     else { return data.filter(x => x.priority === priority) }
 }
 
 export const filterReporter = (users: Users[] | null, data: ReviewNote[], reporter: string) => {
-    if (!data) return data
+    // if (!data) return data
     if (reporter === 'All') { return data.filter(x => x === x) }
     const name = reporter
     const user = users!.filter(x => x.name === name)
@@ -47,7 +47,7 @@ export const filterReporter = (users: Users[] | null, data: ReviewNote[], report
 }
 
 export const filterAssignees = (users: Users[] | null, data: ReviewNote[], assignees: string) => {
-    if (!data) return data
+    // if (!data) return data
     if (assignees === 'All') { return data.filter(x => x === x) }
     const name = assignees
     const user = users!.filter(x => x.name === name)
@@ -57,7 +57,7 @@ export const filterAssignees = (users: Users[] | null, data: ReviewNote[], assig
 }
 
 export const filterSection = (data: ReviewNote[], section: string) => {
-    if (!data) return data
+    // if (!data) return data
     if (section === 'All') { return data.filter(x => x === x) }
     if (section === 'Section not assigned') { return data.filter(x => x.section === null) }
     const result = data.filter(x => x.section === section)
@@ -65,7 +65,7 @@ export const filterSection = (data: ReviewNote[], section: string) => {
 }
 
 export const filterDate = (data: ReviewNote[], date: string) => {
-    if (!data) return data
+    // if (!data) return data
     if (date === "") return data
     const result = data.filter(x => x.dueDate === date)
     return result
