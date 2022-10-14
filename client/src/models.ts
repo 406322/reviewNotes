@@ -22,7 +22,6 @@ export interface FilterState {
     rows: number,
     search: string,
     type: string,
-    status: string
     priority: string,
     reporter: string,
     assignees: string,

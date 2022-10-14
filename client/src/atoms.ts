@@ -8,7 +8,6 @@ export const filterStateAtom = atom<FilterState>({
     rows: 3,
     search: "",
     type: "All",
-    status: "All",
     priority: "All",
     reporter: "All",
     assignees: "All",

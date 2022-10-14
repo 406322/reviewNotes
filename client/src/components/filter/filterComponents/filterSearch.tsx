@@ -11,7 +11,6 @@ export const FilterSearch = () => {
             rows: 3,
             search: "",
             type: "All",
-            status: "All",
             priority: "All",
             reporter: "All",
             assignees: "All",
