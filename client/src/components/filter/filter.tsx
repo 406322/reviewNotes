@@ -12,7 +12,6 @@ import {
     filterSection,
     filterDate,
     filterRows,
-    filterStatus,
 } from './functions'
 
 import { FilterSearch } from './filterComponents/filterSearch'
@@ -38,7 +37,6 @@ export const Filter = () => {
     const runFilter = (data: ReviewNote[]) => {
         let result = filterSearch(filterState, data, filterState.search)
         result = filterType(result!, filterState.type)
-        result = filterStatus(result, filterState.status)
         result = filterPriority(result, filterState.priority)
         result = filterReporter(users, result, filterState.reporter)
         result = filterAssignees(users, result, filterState.assignees)

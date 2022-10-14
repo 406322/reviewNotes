@@ -30,12 +30,6 @@ export const filterType = (data: ReviewNote[], type: string) => {
     else { return data.filter(x => x.type === type) }
 }
 
-export const filterStatus = (data: ReviewNote[], status: string) => {
-    if (!data) return data
-    if (status === 'All') { return data.filter(x => x === x) }
-    else { return data.filter(x => x.status === status) }
-}
-
 export const filterPriority = (data: ReviewNote[], priority: string) => {
     if (!data) return data
     if (priority === 'All') { return data.filter(x => x === x) }
