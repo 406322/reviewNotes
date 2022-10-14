@@ -40,8 +40,7 @@ export const filterReporter = (users: Users[] | null, data: ReviewNote[], report
     const name = reporter
     const user = users!.filter(x => x.name === name)
     const id = user[0].id
-    const result = data.filter(x => x.reporter === id)
-    return result
+    return data.filter(x => x.reporter === id)
 }
 
 export const filterAssignees = (users: Users[] | null, data: ReviewNote[], assignees: string) => {
@@ -49,21 +48,18 @@ export const filterAssignees = (users: Users[] | null, data: ReviewNote[], assig
     const name = assignees
     const user = users!.filter(x => x.name === name)
     const id = user[0].id
-    const result = data.filter(x => x.assignees === id)
-    return result
+    return data.filter(x => x.assignees === id)
 }
 
 export const filterSection = (data: ReviewNote[], section: string) => {
     if (section === 'All') return data
     if (section === 'Section not assigned') { return data.filter(x => x.section === null) }
-    const result = data.filter(x => x.section === section)
-    return result
+    return data.filter(x => x.section === section)
 }
 
 export const filterDate = (data: ReviewNote[], date: string) => {
     if (date === "") return data
-    const result = data.filter(x => x.dueDate === date)
-    return result
+    return data.filter(x => x.dueDate === date)
 }
 
 
