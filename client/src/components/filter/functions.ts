@@ -26,19 +26,17 @@ export const filterSearch = (filterState: FilterState, data: ReviewNote[], searc
 }
 
 export const filterType = (data: ReviewNote[], type: string) => {
-    if (type === 'All') { return data.filter(x => x === x) }
+    if (type === 'All') return data
     else { return data.filter(x => x.type === type) }
 }
 
 export const filterPriority = (data: ReviewNote[], priority: string) => {
-    // if (!data) return data
-    if (priority === 'All') { return data.filter(x => x === x) }
+    if (priority === 'All') return data
     else { return data.filter(x => x.priority === priority) }
 }
 
 export const filterReporter = (users: Users[] | null, data: ReviewNote[], reporter: string) => {
-    // if (!data) return data
-    if (reporter === 'All') { return data.filter(x => x === x) }
+    if (reporter === 'All') return data
     const name = reporter
     const user = users!.filter(x => x.name === name)
     const id = user[0].id
@@ -47,8 +45,7 @@ export const filterReporter = (users: Users[] | null, data: ReviewNote[], report
 }
 
 export const filterAssignees = (users: Users[] | null, data: ReviewNote[], assignees: string) => {
-    // if (!data) return data
-    if (assignees === 'All') { return data.filter(x => x === x) }
+    if (assignees === 'All') return data
     const name = assignees
     const user = users!.filter(x => x.name === name)
     const id = user[0].id
@@ -57,15 +54,13 @@ export const filterAssignees = (users: Users[] | null, data: ReviewNote[], assig
 }
 
 export const filterSection = (data: ReviewNote[], section: string) => {
-    // if (!data) return data
-    if (section === 'All') { return data.filter(x => x === x) }
+    if (section === 'All') return data
     if (section === 'Section not assigned') { return data.filter(x => x.section === null) }
     const result = data.filter(x => x.section === section)
     return result
 }
 
 export const filterDate = (data: ReviewNote[], date: string) => {
-    // if (!data) return data
     if (date === "") return data
     const result = data.filter(x => x.dueDate === date)
     return result
